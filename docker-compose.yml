@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+   hr:
+      image: ubuntu
+      command: sleep infinity
+      cap_add:
+        - NET_ADMIN
+      networks:
+        hr_net:
+          ipv4_address: 10.0.1.10
+
+   engineering:
+      image: ubuntu
+      command: sleep infinity
+      networks:
+        eng_net:
+          ipv4_address: 10.0.2.10
+
+   dmz:
+      image: ubuntu
+      command: sleep infinity
+      networks:
+        dmz_net:
+          ipv4_address: 10.0.3.10
+
+   router:
+      image: ubuntu
+      command: sleep infinity
+      cap_add:
+        - NET_ADMIN
+      networks:
+        hr_net:
+        eng_net:
+        dmz_net:
+
+networks:
+  hr_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+
+
+  eng_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24
+
+  dmz_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.3.0/24
+
